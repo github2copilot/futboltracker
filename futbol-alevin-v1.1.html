@@ -215,7 +215,7 @@
             }
 
             if (cronometroActivoGuardado) {
-                toggleCronometro(true);
+                iniciarCronometro();
             }
         }
 
@@ -251,30 +251,37 @@
         }
 
         // Gestión del cronómetro
-        function toggleCronometro(restore = false) {
-            if (!cronometroActivo || restore) {
-                if (!restore) {
-                    startTimestamp = Date.now();
-                }
-                cronometroInterval = setInterval(() => {
-                    tiempo++;
-                    actualizarTiempo();
-                    guardarDatos();
-                }, 1000);
-                document.getElementById('iniciarBtn').textContent = 'Pausar';
-                document.getElementById('iniciarBtn').classList.replace('bg-green-500', 'bg-yellow-500');
+        function toggleCronometro() {
+            if (!cronometroActivo) {
+                iniciarCronometro();
             } else {
-                clearInterval(cronometroInterval);
-                document.getElementById('iniciarBtn').textContent = 'Reanudar';
-                document.getElementById('iniciarBtn').classList.replace('bg-yellow-500', 'bg-green-500');
+                pausarCronometro();
             }
-            cronometroActivo = !cronometroActivo;
             guardarDatos();
         }
 
-        function actualizarTiempo() {
-            const minutos = Math.floor(tiempo / 60);
-            const segundos = tiempo % 60;
+        function iniciarCronometro() {
+            startTimestamp = Date.now();
+            cronometroInterval = setInterval(() => {
+                const tiempoPasado = Math.floor((Date.now() - startTimestamp) / 1000);
+                actualizarTiempo(tiempo + tiempoPasado);
+            }, 1000);
+            cronometroActivo = true;
+            document.getElementById('iniciarBtn').textContent = 'Pausar';
+            document.getElementById('iniciarBtn').classList.replace('bg-green-500', 'bg-yellow-500');
+        }
+
+        function pausarCronometro() {
+            clearInterval(cronometroInterval);
+            tiempo += Math.floor((Date.now() - startTimestamp) / 1000);
+            cronometroActivo = false;
+            document.getElementById('iniciarBtn').textContent = 'Reanudar';
+            document.getElementById('iniciarBtn').classList.replace('bg-yellow-500', 'bg-green-500');
+        }
+
+        function actualizarTiempo(newTiempo = tiempo) {
+            const minutos = Math.floor(newTiempo / 60);
+            const segundos = newTiempo % 60;
             document.getElementById('tiempo').textContent = 
                 `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
         }
