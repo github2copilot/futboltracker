@@ -93,7 +93,7 @@
             </div>
 
             <!-- Controles del cronómetro -->
-            <div class="flex flex-wrap justify-center space-x-2 md:space-x-4 mb-6">\
+            <div class="flex flex-wrap justify-center space-x-2 md:space-x-4 mb-6">
                 <button id="iniciarBtn" onclick="toggleCronometro()" \
                     class="bg-green-500 text-white text-sm px-3 py-1 rounded-md hover:bg-green-600 mb-2 md:mb-0">\
                     Iniciar\
@@ -109,7 +109,7 @@
             </div>
 
             <!-- Botones de acciones -->
-            <div class="grid grid-cols-2 gap-4 mb-6">\
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mb-6">\
                 <div class="space-y-4">\
                     <h3 class="font-bold text-center text-blue-800">Local</h3>\
                     <button onclick="registrarIncidencia('gol', 'local')" \
@@ -141,21 +141,7 @@
                     </button>\
                 </div>\
             </div>
-                <div class="space-y-4">
-                    <h3 class="font-bold text-center text-red-800">Visitante</h3>
-                    <button onclick="registrarIncidencia('gol', 'visitante')" 
-                        class="w-full bg-red-500 text-white text-sm px-3 py-2 rounded-md hover:bg-red-600">
-                        Gol Visitante
-                    </button>
-                    <button onclick="registrarIncidencia('amarilla', 'visitante')" 
-                        class="w-full bg-yellow-500 text-white text-sm px-3 py-2 rounded-md hover:bg-yellow-600">
-                        Tarjeta Amarilla Visitante
-                    </button>
-                    <button onclick="registrarIncidencia('roja', 'visitante')" 
-                        class="w-full bg-red-500 text-white text-sm px-3 py-2 rounded-md hover:bg-red-600">
-                        Tarjeta Roja Visitante
-                    </button>
-                </div>
+                
             </div>
 
             <!-- Registro de incidencias -->
