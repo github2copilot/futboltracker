@@ -27,8 +27,13 @@
             width: 400px;
         }
         .marcador {
-            width: 1.5rem;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            margin: auto;
         }
     </style>
 </head>
@@ -82,15 +87,15 @@
         <!-- Tab Partido -->
         <div id="partido-content">
             <!-- Marcador -->
-            <div class="grid grid-cols-2 gap-4 md:grid-cols-4 mb-6 text-center">
-                <div class="bg-blue-100 p-2 rounded-lg">
+            <div class="grid grid-cols-3 gap-4 md:grid-cols-3 mb-6 text-center">
+                <div class="bg-blue-100 p-2 rounded-lg flex flex-col items-center">
                     <h3 class="font-bold text-lg mb-1 text-blue-800">Local</h3>
                     <div id="golesLocal" class="text-xl font-bold text-blue-600 marcador">0</div>
                 </div>
-                <div class="bg-gray-100 p-2 rounded-lg flex items-center justify-center col-span-2">
+                <div class="bg-gray-100 p-2 rounded-lg flex items-center justify-center">
                     <div id="tiempo" class="text-lg font-bold">00:00</div>
                 </div>
-                <div class="bg-red-100 p-2 rounded-lg">
+                <div class="bg-red-100 p-2 rounded-lg flex flex-col items-center">
                     <h3 class="font-bold text-lg mb-1 text-red-800">Visitante</h3>
                     <div id="golesVisitante" class="text-xl font-bold text-red-600 marcador">0</div>
                 </div>
