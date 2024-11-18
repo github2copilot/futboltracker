@@ -50,7 +50,7 @@
 
         <!-- Tab Jugadores -->
         <div id="jugadores-content" class="hidden">
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div class="bg-blue-100 p-4 rounded-lg">
                     <h3 class="font-bold text-lg mb-2 text-blue-800">Equipo Local</h3>
                     <textarea id="jugadoresLocal" rows="5" 
@@ -93,63 +93,59 @@
             </div>
 
             <!-- Controles del cronómetro -->
-            <div class="flex flex-wrap justify-center space-x-2 md:space-x-4 mb-6">
-                <button id="iniciarBtn" onclick="toggleCronometro()" \
-                    class="bg-green-500 text-white text-sm px-3 py-1 rounded-md hover:bg-green-600 mb-2 md:mb-0">\
-                    Iniciar\
-                </button>\
-                <button onclick="iniciarSegundaParte()" \
-                    class="bg-yellow-500 text-white text-sm px-3 py-1 rounded-md hover:bg-yellow-600 mb-2 md:mb-0">\
-                    2ª Parte\
-                </button>\
-                <button onclick="resetPartido()" \
-                    class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 mb-2 md:mb-0">\
-                    Reset\
-                </button>\
+            <div class="flex flex-wrap justify-center gap-2 mb-6">
+                <button id="iniciarBtn" onclick="toggleCronometro()" 
+                    class="bg-green-500 text-white text-sm px-6 py-2 rounded-md hover:bg-green-600">
+                    Iniciar
+                </button>
+                <button onclick="iniciarSegundaParte()" 
+                    class="bg-yellow-500 text-white text-sm px-6 py-2 rounded-md hover:bg-yellow-600">2ª Parte
+                </button>
+                <button onclick="resetPartido()" 
+                    class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600">Reset
+                </button>
             </div>
 
             <!-- Botones de acciones -->
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mb-6">\
-                <div class="space-y-4">\
-                    <h3 class="font-bold text-center text-blue-800">Local</h3>\
-                    <button onclick="registrarIncidencia('gol', 'local')" \
-                        class="w-full bg-blue-500 text-white text-sm px-3 py-2 rounded-md hover:bg-blue-600">\
-                        Gol Local\
-                    </button>\
-                    <button onclick="registrarIncidencia('amarilla', 'local')" \
-                        class="w-full bg-yellow-500 text-white text-sm px-3 py-2 rounded-md hover:bg-yellow-600">\
-                        Tarjeta Amarilla Local\
-                    </button>\
-                    <button onclick="registrarIncidencia('roja', 'local')" \
-                        class="w-full bg-red-500 text-white text-sm px-3 py-2 rounded-md hover:bg-red-600">\
-                        Tarjeta Roja Local\
-                    </button>\
-                </div>\
-                <div class="space-y-4">\
-                    <h3 class="font-bold text-center text-red-800">Visitante</h3>\
-                    <button onclick="registrarIncidencia('gol', 'visitante')" \
-                        class="w-full bg-red-500 text-white text-sm px-3 py-2 rounded-md hover:bg-red-600">\
-                        Gol Visitante\
-                    </button>\
-                    <button onclick="registrarIncidencia('amarilla', 'visitante')" \
-                        class="w-full bg-yellow-500 text-white text-sm px-3 py-2 rounded-md hover:bg-yellow-600">\
-                        Tarjeta Amarilla Visitante\
-                    </button>\
-                    <button onclick="registrarIncidencia('roja', 'visitante')" \
-                        class="w-full bg-red-500 text-white text-sm px-3 py-2 rounded-md hover:bg-red-600">\
-                        Tarjeta Roja Visitante\
-                    </button>\
-                </div>\
-            </div>
-                
-            </div>
-
-            <!-- Registro de incidencias -->
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h3 class="font-bold text-lg mb-2">Incidencias del Partido</h3>
-                <div id="incidencias" class="space-y-2">
-                    <!-- Las incidencias se agregarán aquí dinámicamente -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="space-y-4">
+                    <h3 class="font-bold text-center text-blue-800">Local</h3>
+                    <button onclick="registrarIncidencia('gol', 'local')" 
+                        class="w-full bg-blue-500 text-white text-sm px-3 py-2 rounded-md hover:bg-blue-600">
+                        Gol Local
+                    </button>
+                    <button onclick="registrarIncidencia('amarilla', 'local')" 
+                        class="w-full bg-yellow-500 text-white text-sm px-3 py-2 rounded-md hover:bg-yellow-600">
+                        Tarjeta Amarilla Local
+                    </button>
+                    <button onclick="registrarIncidencia('roja', 'local')" 
+                        class="w-full bg-red-500 text-white text-sm px-3 py-2 rounded-md hover:bg-red-600">
+                        Tarjeta Roja Local
+                    </button>
                 </div>
+                <div class="space-y-4">
+                    <h3 class="font-bold text-center text-red-800">Visitante</h3>
+                    <button onclick="registrarIncidencia('gol', 'visitante')" 
+                        class="w-full bg-red-500 text-white text-sm px-3 py-2 rounded-md hover:bg-red-600">
+                        Gol Visitante
+                    </button>
+                    <button onclick="registrarIncidencia('amarilla', 'visitante')" 
+                        class="w-full bg-yellow-500 text-white text-sm px-3 py-2 rounded-md hover:bg-yellow-600">
+                        Tarjeta Amarilla Visitante
+                    </button>
+                    <button onclick="registrarIncidencia('roja', 'visitante')" 
+                        class="w-full bg-red-500 text-white text-sm px-3 py-2 rounded-md hover:bg-red-600">
+                        Tarjeta Roja Visitante
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registro de incidencias -->
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="font-bold text-lg mb-2">Incidencias del Partido</h3>
+            <div id="incidencias" class="space-y-2">
+                <!-- Las incidencias se agregarán aquí dinámicamente -->
             </div>
         </div>
     </div>
@@ -335,31 +331,32 @@
             cargarDatos();
             showTab('partido');
         });
-    function resetPartido() {
-    if (confirm('¿Estás seguro de que quieres reiniciar el partido? Se perderán todos los datos.')) {
-        // Reiniciar datos del partido
-        partidoData = {
-            golesLocal: 0,
-            golesVisitante: 0,
-            incidencias: [],
-            jugadoresLocal: partidoData.jugadoresLocal,
-            jugadoresVisitante: partidoData.jugadoresVisitante
-        };
-        tiempo = 0;
-        clearInterval(cronometroInterval);
-        cronometroActivo = false;
-        document.getElementById('iniciarBtn').textContent = 'Iniciar';
-        document.getElementById('iniciarBtn').classList.replace('bg-yellow-500', 'bg-green-500');
-        
-        // Limpiar almacenamiento local
-        localStorage.removeItem('partidoData');
-        localStorage.removeItem('tiempo');
-        
-        // Actualizar almacenamiento y UI
-        actualizarUI();
-        actualizarTiempo();
-    }
-}
-</script>
+
+        function resetPartido() {
+            if (confirm('¿Estás seguro de que quieres reiniciar el partido? Se perderán todos los datos.')) {
+                // Reiniciar datos del partido
+                partidoData = {
+                    golesLocal: 0,
+                    golesVisitante: 0,
+                    incidencias: [],
+                    jugadoresLocal: partidoData.jugadoresLocal,
+                    jugadoresVisitante: partidoData.jugadoresVisitante
+                };
+                tiempo = 0;
+                clearInterval(cronometroInterval);
+                cronometroActivo = false;
+                document.getElementById('iniciarBtn').textContent = 'Iniciar';
+                document.getElementById('iniciarBtn').classList.replace('bg-yellow-500', 'bg-green-500');
+                
+                // Limpiar almacenamiento local
+                localStorage.removeItem('partidoData');
+                localStorage.removeItem('tiempo');
+                
+                // Actualizar almacenamiento y UI
+                actualizarUI();
+                actualizarTiempo();
+            }
+        }
+    </script>
 </body>
 </html>
