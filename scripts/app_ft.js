@@ -1,3 +1,11 @@
+/**
+ * Project: Football Match Management
+ * Author: Your Name
+ * License: Apache License 2.0
+ * Date: 2024-11-19
+ * You can find the full license in the LICENSE file.
+ */
+
 // app_ft.js
 
 let cronometroInterval;
