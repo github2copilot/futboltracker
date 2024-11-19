@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate-key="title">Gestión Partido Fútbol</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" href="https://equipatefutbol.com/wp-content/uploads/2024/08/cropped-Logo-Icono-32x32.jpg" type="image/x-icon">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 50;
+        }
+        .modal-content {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 90%;
+            width: 400px;
+        }
+        .marcador {
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Selector de idioma -->
+    <div class="container mx-auto px-4 py-4 flex justify-end">
+        <select id="languageSelector" class="p-2 border rounded" onchange="changeLanguage()">
+            <option value="es" selected>Español</option>
+            <option value="pt">Português</option>
+            <option value="en">English</option>
+        </select>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-full md:max-w-4xl">
+        <!-- Enlace de publicidad -->
+        <div class="text-right mb-2">
+            <a href="https://equipatefutbol.com/" target="_blank" class="text-sm text-blue-500 hover:underline" data-translate-key="publicidad.text">
+                Equipamiento Deportivo: equipatefutbol.com
+            </a>
+        </div>
+
+        <!-- Pestañas -->
+        <div class="mb-4 border-b border-gray-200">
+            <ul class="flex flex-wrap -mb-px" role="tablist">
+                <li class="mr-2">
+                    <button class="inline-block p-2 md:p-4 border-b-2 border-blue-500 text-blue-600 active" 
+                            onclick="showTab('partido')" id="partido-tab" data-translate-key="tabs.partido">
+                        Partido
+                    </button>
+                </li>
+                <li class="mr-2">
+                    <button class="inline-block p-2 md:p-4 border-b-2 border-transparent hover:border-gray-300" 
+                            onclick="showTab('jugadores')" id="jugadores-tab" data-translate-key="tabs.jugadores">
+                        Jugadores
+                    </button>
+                </li>
+                <li class="mr-2">
+                    <button class="inline-block p-2 md:p-4 border-b-2 border-transparent hover:border-gray-300" 
+                            onclick="showTab('configuracion')" id="configuracion-tab" data-translate-key="tabs.configuracion">
+                        Configuración
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Tab Configuración -->
+        <div id="configuracion-content" class="hidden">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="bg-blue-100 p-4 rounded-lg">
+                    <h3 class="font-bold text-lg mb-2 text-blue-800" data-translate-key="configuracion.titulo">
+                        Configuración Minuto Inicio Segunda Parte
+                    </h3>
+                    <input type="number" id="minutoSegundaParte" 
+                        class="w-full p-2 border rounded"
+                        placeholder="Minuto de inicio de la 2ª parte" data-translate-key="configuracion.placeholder">
+                    <button onclick="guardarMinutoSegundaParte()" 
+                        class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full md:w-auto"
+                        data-translate-key="configuracion.guardar">
+                        Guardar Minuto
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Jugadores -->
+        <div id="jugadores-content" class="hidden">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="bg-blue-100 p-4 rounded-lg">
+                    <h3 class="font-bold text-lg mb-2 text-blue-800" data-translate-key="jugadores.local">
+                        Equipo Local
+                    </h3>
+                    <textarea id="jugadoresLocal" rows="5" 
+                        class="w-full p-2 border rounded"
+                        placeholder="Ingresa un jugador por línea (número nombre)&#10;Ejemplo:&#10;7 Juan Pérez&#10;10 Carlos García" data-translate-key="jugadores.placeholder"></textarea>
+                    <button onclick="guardarJugadores('local')" 
+                        class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full md:w-auto"
+                        data-translate-key="jugadores.guardarLocales">
+                        Guardar Locales
+                    </button>
+                </div>
+                
+                <div class="bg-red-100 p-4 rounded-lg">
+                    <h3 class="font-bold text-lg mb-2 text-red-800" data-translate-key="jugadores.visitante">
+                        Equipo Visitante
+                    </h3>
+                    <textarea id="jugadoresVisitante" rows="5" 
+                        class="w-full p-2 border rounded"
+                        placeholder="Ingresa un jugador por línea (número nombre)&#10;Ejemplo:&#10;7 Juan Pérez&#10;10 Carlos García" data-translate-key="jugadores.placeholder"></textarea>
+                    <button onclick="guardarJugadores('visitante')" 
+                        class="mt-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full md:w-auto"
+                        data-translate-key="jugadores.guardarVisitantes">
+                        Guardar Visitantes
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Partido -->
+        <div id="partido-content">
+            <!-- Marcador -->
+            <div class="grid grid-cols-3 gap-4 md:grid-cols-3 mb-6 text-center">
+                <div class="bg-blue-100 p-2 rounded-lg flex flex-col items-center">
+                    <h3 class="font-bold text-lg mb-1 text-blue-800" data-translate-key="partido.marcador.local">
+                        Local
+                    </h3>
+                    <div id="golesLocal" class="text-xl font-bold text-blue-600 marcador">0</div>
+                </div>
+                <div class="bg-gray-100 p-2 rounded-lg flex flex-col items-center justify-center">
+                    <div id="tiempo" class="text-lg font-bold" data-translate-key="partido.tiempo">
+                        00:00
+                    </div>
+                    <button onclick="abrirModalTiempo()" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" data-translate-key="partido.ajustarTiempo">
+                        Ajustar Tiempo
+                    </button>
+                </div>
+                <div class="bg-red-100 p-2 rounded-lg flex flex-col items-center">
+                    <h3 class="font-bold text-lg mb-1 text-red-800" data-translate-key="partido.marcador.visitante">
+                        Visitante
+                    </h3>
+                    <div id="golesVisitante" class="text-xl font-bold text-red-600 marcador">0</div>
+                </div>
+            </div>
+
+            <!-- Botones de acciones -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="space-y-4">
+                    <h3 class="font-bold text-center text-blue-800" data-translate-key="partido.jugadores.local">
+                        Local
+                    </h3>
+                    <button onclick="registrarIncidencia('gol', 'local')" 
+                        class="w-full bg-blue-500 text-white text-sm px-3 py-2 rounded-md hover:bg-blue-600"
+                        data-translate-key="partido.acciones.gol">
+                        Gol
+                    </button>
+                    <button onclick="registrarIncidencia('amarilla', 'local')" 
+                        class="w-full bg-yellow-500 text-white text-sm px-3 py-2 rounded-md hover:bg-yellow-600"
+                        data-translate-key="partido.acciones.amarilla">
+                        Tarjeta Amarilla
+                    </button>
+                    <button onclick="registrarIncidencia('roja', 'local')" 
+                        class="w-full bg-red-500 text-white text-sm px-3 py-2 rounded-md hover:bg-red-600"
+                        data-translate-key="partido.acciones.roja">
+                        Tarjeta Roja
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="font-bold text-center text-red-800" data-translate-key="partido.jugadores.visitante">
+                        Visitante
+                    </h3>
+                    <button onclick="registrarIncidencia('gol', 'visitante')" 
+                        class="w-full bg-red-500 text-white text-sm px-3 py-2 rounded-md hover:bg-red-600"
+                        data-translate-key="partido.acciones.gol">
+                        Gol
+                    </button>
+                    <button onclick="registrarIncidencia('amarilla', 'visitante')" 
+                        class="w-full bg-yellow-500 text-white text-sm px-3 py-2 rounded-md hover:bg-yellow-600"
+                        data-translate-key="partido.acciones.amarilla">
+                        Tarjeta Amarilla
+                    </button>
+                    <button onclick="registrarIncidencia('roja', 'visitante')" 
+                        class="w-full bg-red-500 text-white text-sm px-3 py-2 rounded-md hover:bg-red-600"
+                        data-translate-key="partido.acciones.roja">
+                        Tarjeta Roja
+                    </button>
+                </div>
+            </div>
+
+            <!-- Registro de incidencias -->
+            <div class="bg-white p-4 rounded-lg shadow mb-6">
+                <h3 class="font-bold text-lg mb-2" data-translate-key="partido.eventos">
+                    Eventos del Partido
+                </h3>
+                <div id="incidencias" class="space-y-2">
+                    <!-- Las incidencias se agregarán aquí dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Controles del cronómetro -->
+            <div class="flex flex-wrap justify-center gap-2 mb-6">
+                <button id="iniciarBtn" onclick="toggleCronometro()" 
+                    class="bg-green-500 text-white text-sm px-6 py-2 rounded-md hover:bg-green-600"
+                    data-translate-key="partido.controles.iniciar">
+                    Iniciar
+                </button>
+                <button onclick="iniciarSegundaParte()" 
+                    class="bg-yellow-500 text-white text-sm px-6 py-2 rounded-md hover:bg-yellow-600" 
+                    data-translate-key="partido.controles.segundaParte">
+                    2ª Parte
+                </button>
+                <button onclick="resetPartido()" 
+                    class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600" 
+                    data-translate-key="partido.controles.reset">
+                    Reset
+                </button>
+                <button onclick="exportarCSV()" 
+                    class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600" 
+                    data-translate-key="partido.controles.exportar">
+                    Exportar CSV
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para seleccionar jugador -->
+    <div id="modalJugador" class="modal">
+        <div class="modal-content bg-white">
+            <h3 class="font-bold text-lg mb-4" data-translate-key="modal.seleccionarJugador">
+                Seleccionar Jugador
+            </h3>
+            <select id="selectJugador" class="w-full p-2 border rounded mb-4">
+                <!-- Las opciones se llenarán dinámicamente -->
+            </select>
+            <div class="flex justify-end space-x-2">
+                <button onclick="cerrarModal()" 
+                    class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                    data-translate-key="modal.cancelar">
+                    Cancelar
+                </button>
+                <button onclick="confirmarJugador()" 
+                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    data-translate-key="modal.confirmar">
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para ajustar el tiempo -->
+    <div id="modalTiempo" class="modal">
+        <div class="modal-content bg-white">
+            <h3 class="font-bold text-lg mb-4" data-translate-key="modal.ajustarTiempo">
+                Ajustar Tiempo del Cronómetro
+            </h3>
+            <input type="number" id="minutosInput" placeholder="Minutos" class="w-full p-2 border rounded mb-2" min="0" data-translate-key="modal.minutos">
+            <input type="number" id="segundosInput" placeholder="Segundos" class="w-full p-2 border rounded mb-4" min="0" max="59" data-translate-key="modal.segundos">
+            <div class="flex justify-end space-x-2">
+                <button onclick="cerrarModalTiempo()" 
+                    class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                    data-translate-key="modal.cancelar">
+                    Cancelar
+                </button>
+                <button onclick="confirmarTiempo()" 
+                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    data-translate-key="modal.confirmarTiempo">
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enlace a los archivos JavaScript externos -->
+    <script src="scripts/app_ft.js"></script>
+    <script src="scripts/language.js"></script>
+</body>
+</html>
